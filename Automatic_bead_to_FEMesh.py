@@ -205,7 +205,9 @@ if plotting:
 # step six: crop with bounding box again - bounding box based on plotting the overall points and selecting from plot
 print('step 6')
 #bb for jove
-bb = np.array([[200, 1780], [200, 1900], [180, 1900], [180, 1780], [200, 1780]])
+bb2_x = np.array([200, 200, 180, 180]) 
+bb2_y = np.array([1780, 1900, 1900, 1780])
+bb = np.array([[bb2_x[0], bb2_y[0]], [bb2_x[1], bb2_y[1]], [bb2_x[2], bb2_y[2]], [bb2_x[3], bb2_y[3]], [bb2_x[0], bb2_y[0]]])
 
 ff = f[in_poly(bb, f), :]
 if plotting:
