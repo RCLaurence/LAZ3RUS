@@ -126,10 +126,15 @@ if plotting:
 # plt.show()
 # step two: crop with bounding box (bb) - bounding box based on plotting the overall points and selecting from the previous plot
 print('step 2')
-bb = np.array([[1780, -190], [1780, -160], [1900, -160], [1900, -190], [1780, -190]])
+bb_x = np.array([1780, 1780, 1900, 1900]) 
+bb_y = np.array([-190, -160, -160,  -190])
+
+
+bb = np.array([[bb_x[0], bb_y[0]], [bb_x[1], bb_y[1]], [[bb_x[2], bb_y[2]], [[bb_x[3], bb_y[3]], [bb_x[0], bb_y[0]]])
 f = raw[in_poly(bb, raw), :]
 #f jove
-f = f[(f[:, 2] > 250), :]
+height_filter = 250
+f = f[(f[:, 2] > height_filter), :]
 if plotting:
     fig, axes = plt.subplots(constrained_layout=True)
     sc = axes.scatter(f[:, 0], f[:, 1], c=f[:, 2], marker='.', cmap="Spectral")  # xy
@@ -163,7 +168,8 @@ if plotting:
 # step four: get points to solve for bead orientation, bead threshold also selected from plotting
 print('step 4')
 #thershold jove
-bp = f[(f[:, 2] > 109), :]
+Bead_threshold = 109
+bp = f[(f[:, 2] > Bead_threshold), :]
 
 # fit x,y bp to linear expression
 coeff = np.polyfit(bp[:, 0], bp[:, 1], 1)
