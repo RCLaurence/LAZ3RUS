@@ -500,6 +500,10 @@ class interactor(QtWidgets.QWidget):
 
     def plate(self):
         
+        #make sure something was loaded to operate on
+        if not hasattr(self,'points'):
+            return
+        
         def func(x, a, h, k, level_z):
             '''
             Description of a piecewise/capped parabola of the form y = max(a*(x-h)**2 + k, level_z)
@@ -574,7 +578,10 @@ class interactor(QtWidgets.QWidget):
         self.fit_actor_list = [fit_actor, outline_fit_actor, weld_path_actor]
         for actor in self.fit_actor_list:
             self.ren.AddActor(actor)
-        self.ren.RemoveActor(self.id_box_actor)
+        try:
+            self.ren.RemoveActor(self.id_box_actor)
+        except:
+            pass
         
         self.ui.vtkWidget.update()
         
@@ -601,10 +608,16 @@ class interactor(QtWidgets.QWidget):
         
         if not hasattr(self,'freecad_cmd'):
             self.check_settings()
+            if self.freecad_cmd is None:
+                del self.freecad_cmd
+                return
         
         if not hasattr(self,'macro_fname'):
             self.macro_fname = get_save_file('*.py',self.work_dir)
-        
+            if self.macro_fname is None:
+                del self.macro_fname
+                return
+
         height = self.ui.fc_plate_h.value()
         width = self.ui.fc_plate_w.value()
         thickness = self.ui.fc_plate_t.value()
@@ -681,7 +694,7 @@ def get_save_file(*args):
     )
     
     if filer[0] == '':
-        return None, None
+        return None
     else:
         return filer[0]
 
@@ -722,7 +735,7 @@ def read_config(file):
         fname = get_file("*.yaml")
         
         if fname is None or not(os.path.isfile(fname)):
-            return
+            return None, None, None
     else:
         fname = file
     
