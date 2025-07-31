@@ -70,7 +70,7 @@ The fit is now complete and appears as a black line across the centre. The extre
 ![10](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/10.png)
 
 ### Create the 3D representations
-To create the stl, stp and inp files first chose the size of the base plate using the **"w" "h" "t"** options within the **"FreeCAD** section. Then press the **"Run"** command. This with prompt a save dialogue option where you can name your files. If you want the final output to be in the same coordinate system as the welding cell as opposed to the bead coordinate system used for fitting select the **"Invert transform"** option prior to committing to the run. 
+To create the stl, stp and inp files first chose the size of the base plate using the **"w" "h" "t"** options within the **"FreeCAD""** section. Then press the **"Run"** command. This with prompt a save dialogue option where you can name your files. If you want the final output to be in the same coordinate system as the welding cell as opposed to the bead coordinate system used for fitting select the **"Invert transform"** option prior to committing to the run. 
 
 ![11](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/11.png)
 
