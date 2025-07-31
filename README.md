@@ -80,7 +80,7 @@ The final stl can be veiw by pressing the **"Load STL"** button. The stl, stp an
 ![12](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/12.png)
 
 ## Bring the geometry into ABAQUS
-Using the **"Import model"** option within ABAQUS CAE the meshed inp file brought into ABQAQUS where it can act as the basis for future FEA analysis of the weld. 
+Using the **"File > Import > Model"** option within ABAQUS CAE the meshed inp file brought into ABQAQUS where it can act as the basis for future FEA analysis of the weld. 
 
 ![13](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/13.png)
 
