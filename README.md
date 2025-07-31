@@ -3,6 +3,9 @@ LAZ3RUS is a python enabled code for transinformation of a captured point cloud 
 
 The use of LAZ3RUS along with all the welding setup steps needed for geometry capture are covered in detail in the accompanying JoVE publication: [Automatic Laser-based Geometry Capture for Finite Element Analysis of Weld Beads](https://app.jove.com/t/68654/automatic-laser-based-geometry-capture-for-finite-element-analysis)
 
+## Citing LAZ3RUS
+IF you use LAZ3RUS in your research please cite as: RC Laurence, MJ Roy& J Li. (2025). RCLaurence/LAZ3RUS: LAZ3RUS (v0.1). Zenodo. https://doi.org/10.5281/zenodo.15175021
+
 ## Instillation 
 ### Prerequisites
 For proper functionality of LAZ3RUS instillations of [Python 12](https://www.python.org/downloads/release/python-3120/) and [FreeCAD 1.0](https://www.freecad.org/downloads.php) are required.
