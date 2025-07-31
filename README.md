@@ -60,7 +60,7 @@ With the bounding box tool and the **"Invert selection"** tick box active draw a
 ![8](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/8.png)
 
 ## Fit the Bead
-Use the **"Fit bead** button to fit the bead**
+Use the **"Fit bead** button to fit the bead.
 
 ![9](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/9.png)
 
