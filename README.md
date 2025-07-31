@@ -30,7 +30,7 @@ Press the **Transform** button to open the transinformation matrix dialogue box.
 ![3](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/3.png)
 
 ## Preparing the bead for fitting
-### selecting the area of interest
+### Selecting the area of interest
 
 To select the area of interest, i.e. the bead, of the now transformed data press the *R* key to activate the bounding box tool. With the tool active drag and select an area around bead to be fitted. The press the **Crop** button to crop the data. 
 
@@ -43,6 +43,19 @@ After cropping the data to the bead change the view to show the y,z plane. With 
 ![5](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/5.png)
 
 ### Flatten the plate around the bead
+Return to the to down view. With the bounding box tool still active select the **invert selection** tick box and draw around the bead area. Next press the **Level** button to flatten the plate. 
+
+![6](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/6.png)
+
+### Orientate the bead for fitting
+To help insure a reliable fit, the bead is orientated to be parallel to the y axis. This is done by the selecting the **rotate** tick box and pressing the **Orient** button. 
+
+![7](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/7.png)
+
+### Find the height of the plate
+With the bounding box tool and the **invert selection** tick box active draw around the bead a press the **select** button. This will find the height of the plate denoted in the box **p=**. This can be manually adjusted if desired. 
+
+![8](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/8.png)
 
 
 
