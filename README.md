@@ -29,5 +29,26 @@ Press the **Transform** button to open the transinformation matrix dialogue box.
 
 ![3](https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/3.png)
 
+## Preparing the bead for fitting
+### selecting the area of interest
+
+To select the area of interest, i.e. the bead, of the now transformed data press the *R* key to activate the bounding box tool. With the tool active drag and select an area around bead to be fitted. The press the **Crop** button to crop the data. 
+
+![4]https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/4.png)
+
+### Remove scanning artifacts
+After cropping the data to the bead change the view to show the y,z plane. With the bounding box too still active, draw around the area of interest again to remove any scanning artifacts. Once the area is selected again press the **crop** button.  
+
+
+![5]https://github.com/RCLaurence/LAZ3RUS/blob/main/Images/5.png)
+
+### Flatten the plate around the bead
+
+
+
+
+
+
+
 
 
