@@ -1,0 +1,73 @@
+DEFDAT  W7_X_0_15_49_54
+;FOLD EXTERNAL DECLARATIONS;%{PE}%MKUKATPBASIS,%CEXT,%VCOMMON,%P
+;FOLD BASISTECH EXT;%{PE}%MKUKATPBASIS,%CEXT,%VEXT,%P
+EXT  BAS (BAS_COMMAND  :IN,REAL  :IN )
+DECL INT SUCCESS
+;ENDFOLD (BASISTECH EXT)
+;FOLD USER EXT;%{E}%MKUKATPUSER,%CEXT,%VEXT,%P
+;Make your modifications here
+
+;ENDFOLD (USER EXT)
+;ENDFOLD (EXTERNAL DECLARATIONS)
+
+DECL stArcDat_T WDAT3={WdatId[] "WDAT3",Strike {JobModeId[] "SLAVE",ParamSetId[] "Set1",StartTime 0.0,PreFlowTime 0.0,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0,PurgeTime 0.0},Weld {JobModeId[] "SLAVE",ParamSetId[] "Set2",Velocity 0.006667,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0},Weave {Pattern #None,Length 4.00000,Amplitude 2.00000,Angle 0.0,LeftSideDelay 0.0,RightSideDelay 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP3={WdatId[] "WP3",Info {Version 303030366},Strike {SeamName[] " ",PartName[] " ",SeamNumber 0,PartNumber 0,DesiredLength 0.0,LengthTolNeg 0.0,LengthTolPos 0.0,LengthCtrlActive FALSE},Advanced {BitCodedRobotMark 0}}
+DECL FRAME XP3={X 1674.123321,Y 259.508345,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP3={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL PDAT PPDAT3={VEL 100.000,ACC 100.000,APO_DIST 500.000,APO_MODE #CDIS,GEAR_JERK 100.000,EXAX_IGN 0}
+
+DECL stArcDat_T WDAT4={WdatId[] "WDAT4",Weld {JobModeId[] "SLAVE",ParamSetId[] "Set2",Velocity 0.006667,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0},Weave {Pattern #None,Length 4.00000,Amplitude 2.00000,Angle 0.0,LeftSideDelay 0.0,RightSideDelay 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP4={WdatId[] "WP4",Info {Version 303030366}}
+DECL FRAME XP4={X 1668.427252,Y 267.859083,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP4={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT4={VEL 2.00000,ACC 100.000,APO_DIST 5.00000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+
+DECL stArcDat_T WDAT5={WdatId[] "WDAT5",Weld {JobModeId[] "SLAVE",ParamSetId[] "Set2",Velocity 0.006667,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0},Weave {Pattern #None,Length 4.00000,Amplitude 2.00000,Angle 0.0,LeftSideDelay 0.0,RightSideDelay 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP5={WdatId[] "WP5",Info {Version 303030366}}
+DECL FRAME XP5={X 1661.978958,Y 275.653588,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP5={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT5={VEL 2.00000,ACC 100.000,APO_DIST 5.00000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+
+DECL stArcDat_T WDAT6={WdatId[] "WDAT6",Weld {JobModeId[] "SLAVE",ParamSetId[] "Set2",Velocity 0.006667,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0},Weave {Pattern #None,Length 4.00000,Amplitude 2.00000,Angle 0.0,LeftSideDelay 0.0,RightSideDelay 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP6={WdatId[] "WP6",Info {Version 303030366}}
+DECL FRAME XP6={X 1655.191047,Y 283.169039,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP6={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT6={VEL 2.00000,ACC 100.000,APO_DIST 5.00000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+
+DECL stArcDat_T WDAT7={WdatId[] "WDAT7",Weld {JobModeId[] "SLAVE",ParamSetId[] "Set2",Velocity 0.006667,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0},Weave {Pattern #None,Length 4.00000,Amplitude 2.00000,Angle 0.0,LeftSideDelay 0.0,RightSideDelay 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP7={WdatId[] "WP7",Info {Version 303030366}}
+DECL FRAME XP7={X 1648.012416,Y 289.995881,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP7={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT7={VEL 2.00000,ACC 100.000,APO_DIST 5.00000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+
+DECL stArcDat_T WDAT8={WdatId[] "WDAT8",Weld {JobModeId[] "SLAVE",ParamSetId[] "Set2",Velocity 0.006667,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0},Weave {Pattern #None,Length 4.00000,Amplitude 2.00000,Angle 0.0,LeftSideDelay 0.0,RightSideDelay 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP8={WdatId[] "WP8",Info {Version 303030366}}
+DECL FRAME XP8={X 1640.259049,Y 296.512067,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP8={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT8={VEL 2.00000,ACC 100.000,APO_DIST 5.00000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+
+DECL stArcDat_T WDAT9={WdatId[] "WDAT9",Weld {JobModeId[] "SLAVE",ParamSetId[] "Set2",Velocity 0.006667,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0},Weave {Pattern #None,Length 4.00000,Amplitude 2.00000,Angle 0.0,LeftSideDelay 0.0,RightSideDelay 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP9={WdatId[] "WP9",Info {Version 303030366}}
+DECL FRAME XP9={X 1632.206935,Y 302.610331,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP9={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT9={VEL 2.00000,ACC 100.000,APO_DIST 5.00000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+
+DECL stArcDat_T WDAT10={WdatId[] "WDAT10",Weld {JobModeId[] "SLAVE",ParamSetId[] "Set2",Velocity 0.006667,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0},Weave {Pattern #None,Length 4.00000,Amplitude 2.00000,Angle 0.0,LeftSideDelay 0.0,RightSideDelay 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP10={WdatId[] "WP10",Info {Version 303030366}}
+DECL FRAME XP10={X 1623.583137,Y 307.910629,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP10={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT10={VEL 2.00000,ACC 100.000,APO_DIST 5.00000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+
+DECL stArcDat_T WDAT11={WdatId[] "WDAT11",Weld {JobModeId[] "SLAVE",ParamSetId[] "Set2",Velocity 0.006667,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0},Weave {Pattern #None,Length 4.00000,Amplitude 2.00000,Angle 0.0,LeftSideDelay 0.0,RightSideDelay 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP11={WdatId[] "WP11",Info {Version 303030366}}
+DECL FRAME XP11={X 1614.485736,Y 312.335592,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP11={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT11={VEL 2.00000,ACC 100.000,APO_DIST 5.00000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+
+DECL stArcDat_T WDAT12={WdatId[] "WDAT12",Crater {JobModeId[] "SLAVE",ParamSetId[] "Set3",CraterTime 0.0,PostflowTime 0.0,Channel1 1.00000,Channel2 0.0,Channel3 0.0,Channel4 0.0,Channel5 0.0,Channel6 0.0,Channel7 0.0,Channel8 0.0,BurnBackTime 0.0},Advanced {IgnitionErrorStrategy 1,WeldErrorStrategy 1,SlopeOption #None,SlopeTime 0.0,SlopeDistance 0.0,OnTheFlyActiveOn FALSE,OnTheFlyActiveOff FALSE,OnTheFlyDistanceOn 0.0,OnTheFlyDistanceOff 0.0}}
+DECL stArcDat_T WP12={WdatId[] "WP12",Info {Version 303030366}}
+DECL FRAME XP12={X 1604.840495,Y 315.371302,Z 388.078317,A -8.210000,B 83.430000,C -1.340000}
+DECL FDAT FP12={TOOL_NO 2,BASE_NO 0,IPO_FRAME #BASE,POINT2[] " "}
+DECL LDAT LCPDAT12={VEL 2.00000,ACC 100.000,APO_DIST 100.000,APO_FAC 50.0000,AXIS_VEL 100.000,AXIS_ACC 100.000,ORI_TYP #VAR,CIRC_TYP #BASE,JERK_FAC 50.0000,GEAR_JERK 100.000,EXAX_IGN 0}
+
+ENDDAT
