@@ -145,11 +145,19 @@ class main_window(QtWidgets.QWidget):
         self.zseg.setToolTip("z value for bead orientation")
         self.bead_orientation_button = QtWidgets.QPushButton("Orient")
         self.bead_orientation_button.setToolTip('Display orientation of weld bead')
+        
+        self.prominence_sb = QtWidgets.QDoubleSpinBox()
+        self.prominence_sb.setToolTip('Parameter affecting where parabola fitting commences')
+        self.prominence_sb.setValue(1)
+        self.prominence_sb.setDecimals(1)
+        self.prominence_sb.setMinimum(0.1)
+        self.prominence_sb.setMaximum(1.0)
+        
         self.make_vertical=QtWidgets.QCheckBox("Rotate")
         self.make_vertical.setToolTip("Pressing orient will rotate the data set vertical to be in-line with y-axis")
         
         bead_fit_layout.addWidget(self.zseg)
-        bead_fit_layout.addStretch()
+        bead_fit_layout.addWidget(self.prominence_sb)
         bead_fit_layout.addWidget(self.make_vertical)
         bead_fit_layout.addWidget(self.bead_orientation_button)
         
@@ -169,12 +177,25 @@ class main_window(QtWidgets.QWidget):
         plate_param_layout.addWidget(self.plate_mean)
         plate_param_layout.addWidget(self.get_plate_from_bb)
         plate_param_layout.addWidget(self.seg_width)
-        plate_param_layout.addWidget(self.get_plate_button)
+        
         plate_param_layout.addStretch()
+        
+        multi_bead_layout = QtWidgets.QHBoxLayout()
+        self.multi_fit_cb = QtWidgets.QCheckBox('Multiple beads')
+        self.multi_fit_cb.setChecked(False)
+        self.num_fits_sb = QtWidgets.QSpinBox()
+        self.num_fits_sb.setPrefix('N = ')
+        self.num_fits_sb.setValue(10)
+        self.num_fits_sb.setToolTip('Number of individual bead cross-sections to fit')
+        self.num_fits_sb.setMaximum(1000)
+        multi_bead_layout.addWidget(self.multi_fit_cb)
+        multi_bead_layout.addWidget(self.num_fits_sb)
+        multi_bead_layout.addWidget(self.get_plate_button)
         
         bead_fit_box_layout = QtWidgets.QVBoxLayout()
         bead_fit_box_layout.addLayout(bead_fit_layout)
         bead_fit_box_layout.addLayout(plate_param_layout)
+        bead_fit_box_layout.addLayout(multi_bead_layout)
         
         bead_fit_box = QtWidgets.QGroupBox("Bead fitting")
         bead_fit_box.setLayout(bead_fit_box_layout)
@@ -503,37 +524,24 @@ class interactor(QtWidgets.QWidget):
         #make sure something was loaded to operate on
         if not hasattr(self,'points'):
             return
-        
-        def func(x, a, h, k, level_z):
-            '''
-            Description of a piecewise/capped parabola of the form y = max(a*(x-h)**2 + k, level_z)
-            '''
-            y = np.zeros_like(x)
-            for i in range(len(x)):
-                y[i] = np.max(np.append(a * (x[i] - h) ** 2 + k, level_z))
-            return y
-        
+            
         if hasattr(self, 'fit_actor_list') and self.fit_actor_list:
             for actor in self.fit_actor_list:
                 self.ren.RemoveActor(actor)
+
         self.fit_actor_list = []
         
         height = self.ui.plate_mean.value()
         points_avail = self.points[self.active_pnt, :]
+        seg_t = self.ui.seg_width.value()/2
+        #find the extents of the bead using the maximum height of the plate
+        bp = points_avail[(points_avail[:, 2] > (height+seg_t)), :]
+        y_s, y_e = np.max(bp[:, 1]), np.min(bp[:, 1])
         
         cent = np.mean(points_avail, axis = 0)
-        seg_t = self.ui.seg_width.value()
-        mask = np.logical_and(points_avail[:, 1] < (cent[1] + seg_t), points_avail[:, 1] > (cent[1] - seg_t))
-        x_sec = points_avail[mask, :]
-        sl_x = np.linspace(np.min(x_sec[:, 0]), np.max(x_sec[:, 0]))
-        p, _ = find_peaks(x_sec[:, 2], prominence=1)  # to provide guess initialize h,k for fitting parabola
         
-        # perform curve fit with locked height with an initial guess of a=-0.5, h & k equal to the peaks
-        popt, _ = curve_fit(lambda x, a, h, k: func(x, a, h, k, height), x_sec[:, 0], x_sec[:, 2],
-                            p0=np.array([-0.5, x_sec[p[0], 0], x_sec[p[0], 2]]))
-
-        fit = func(sl_x, *popt, height)  # result of the fit
-
+        popt, sl_x, fit = fit_bead(points_avail, height, cent, seg_t, self.ui.prominence_sb.value())
+        
         # get width in x of bead, will run between inter_x[0] to inter_x[1]
         p_ = [popt[0], -2 * popt[0] * popt[1],
               popt[0] * popt[1] ** 2 + popt[2]]  # standard representation of vertex representation above
@@ -542,10 +550,8 @@ class interactor(QtWidgets.QWidget):
         #plot with an outline
         line = np.column_stack((sl_x,np.ones(len(sl_x))*cent[1],fit))
         
-        #find the extents of the bead using the maximum height of the plate
-        bp = points_avail[(points_avail[:, 2] > (height+seg_t)), :]
-
-        y_s, y_e = np.max(bp[:, 1]), np.min(bp[:, 1])
+        #if there are multiple beads, try and fit them 
+        
         x = np.linspace(inter_x[0], inter_x[1])
         # get x,y extents of bead
         start_xy = np.column_stack((x, (popt[0] * (x - popt[1]) ** 2 + y_s), np.ones(len(x)) * height))
@@ -583,13 +589,30 @@ class interactor(QtWidgets.QWidget):
         except:
             pass
         
-        self.ui.vtkWidget.update()
         
+        
+        #if there are multiple beads:
+        if self.ui.multi_fit_cb.isChecked():
+            y_location = np.linspace(0, y_e, int(self.ui.num_fits_sb.value()))
+            multi_fit_results = []
+            for y in y_location:
+                popt, _, _, mse = fit_bead(
+                points_avail, 
+                self.ui.plate_mean.value(),
+                np.array([0,y,0]), 
+                seg_t, 
+                self.ui.prominence_sb.value(), calc_error = True)
+                if popt is None:
+                    pass
+                else:
+                    multi_fit_results.append([y,*popt,mse])
+            np.savetxt(os.path.join(self.work_dir,"fit_all.txt"), multi_fit_results, header="y_pos, a, h, k, mse")
         #return inter_x, popt and y_e to main object
         self.inter_x = inter_x
         self.popt = popt
         self.y_e = y_e
         
+        self.ui.vtkWidget.update()
         
     def undo_crop(self):
         '''
@@ -887,6 +910,51 @@ class settings_widget(QtWidgets.QDialog):
     def closeEvent(self, *args, **kwargs):
         super(QtWidgets.QDialog, self).closeEvent(*args, **kwargs)
         self.make_config_change()
+
+def fit_bead(points, height, loc, seg_t, prom, a_init = -0.5, calc_error = False):
+    '''
+    Params:
+    points: Nx3 numpy array of all points to be considered
+    height: number reflecting the height of the baseplate
+    seg_t: number reflecting a segment thickness to fit one bead profile to
+    prom: number from 0>=1 to identify initial prominence of where the top of the bead might be
+    a_init: initial a value of the resulting parabola expressed in vertex form
+    
+    Returns:
+    popt: array of a, h, k of fitted parabola in vertex form
+    sl_x: a linearly spaced array of x values spanning the fitted interval
+    fit: the resulting y values of sl_x subject to the fitted parabola popt
+    '''
+
+
+    def func(x, a, h, k, level_z):
+        '''
+        Description of a piecewise/capped parabola of the form y = max(a*(x-h)**2 + k, level_z)
+        '''
+        y = np.zeros_like(x)
+        for i in range(len(x)):
+            y[i] = np.max(np.append(a * (x[i] - h) ** 2 + k, level_z))
+        return y
+
+    mask = np.logical_and(points[:, 1] < (loc[1] + seg_t), points[:, 1] > (loc[1] - seg_t))
+    x_sec = points[mask, :]
+    sl_x = np.linspace(np.min(x_sec[:, 0]), np.max(x_sec[:, 0]))
+    p, _ = find_peaks(x_sec[:, 2], prominence=prom)
+    # perform curve fit with locked height with an initial guess of a=-0.5, h & k equal to the peaks
+    try:
+        popt, _ = curve_fit(lambda x, a, h, k: func(x, a, h, k, height), x_sec[:, 0], x_sec[:, 2],
+                            p0=np.array([a_init, x_sec[p[0], 0], x_sec[p[0], 2]]))
+    except:
+        return None, None, None, None
+    fit = func(sl_x, *popt, height)
+    
+
+    if calc_error:
+        mse = 1/len(x_sec[:,0])*np.sum((x_sec[:, 2]-func(x_sec[:,0], *popt, height)**2))
+        return popt, sl_x, fit, mse
+    else:
+        return popt, sl_x, fit
+        
 
 def gen_point_cloud(pts,color=None,r=None,size=2):
     '''
