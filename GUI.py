@@ -23,6 +23,7 @@ from scipy.optimize import curve_fit
 
 
 from automatic_bead_to_finite_element_mesh import do_transform, in_poly, reduce_pnts, get_svd_orientation, get_trans_from_euler_angles, gen_fc_bead
+from read_dat import get_weld_actor_from_dat
 
 class standalone_app(QtWidgets.QMainWindow):
     
@@ -318,7 +319,7 @@ class interactor(QtWidgets.QWidget):
 
     def load_file(self):
         '''
-        Loads an xyz file
+        Loads an xyz or dat file
         '''
         if self.settings_file_name is not None:
             fname = get_file('*.xyz', read_config(self.settings_file_name)[0])
@@ -327,10 +328,15 @@ class interactor(QtWidgets.QWidget):
         
         if fname is None:
             return
-            
-        self.points = np.genfromtxt(fname, delimiter=' ', skip_header=0, usecols=(0, 1, 2))
-        self.undo_crop()
         
+        if fname.endswith('xyz'):
+            self.points = np.genfromtxt(fname, delimiter=' ', skip_header=0, usecols=(0, 1, 2))
+            
+        else:
+            #its a dat file
+            self.weld_seq_actors = [x for x in get_weld_actor_from_dat(fname)]
+        
+        self.undo_crop()
     
     def check_settings(self):
         if self.settings_file_name is None:
@@ -359,31 +365,38 @@ class interactor(QtWidgets.QWidget):
         
         self.ren.RemoveAllViewProps()
         
-        self.point_actor, \
-        self.pnt_polydata, \
-        self.colors, lut = \
-        gen_point_cloud(self.points[self.active_pnt],None,None)
-
-        sb_widget = gen_scalar_bar()
-        sb_widget.SetInteractor(self.iren)
-        sb_widget.On()
-        self.sb_actor = sb_widget.GetScalarBarActor()
-        self.sb_actor.SetLookupTable(lut)
-        self.ren.AddActor(self.sb_actor)
-
-        self.ren.AddActor(self.point_actor)
-
-        limits = get_limits(self.points[self.active_pnt], 0)
-        self.ui.bbox_x0.setValue(limits[0])
-        self.ui.bbox_x1.setValue(limits[1])
-        self.ui.bbox_y0.setValue(limits[2])
-        self.ui.bbox_y1.setValue(limits[3])
-        self.ui.bbox_z0.setValue(limits[4])
-        self.ui.bbox_z1.setValue(limits[5])
-        self.ui.zseg.setValue((limits[4] + limits[5]) / 2)
+        if hasattr(self, 'weld_seq_actors'):
+            for actor in self.weld_seq_actors[0]:
+                self.ren.AddActor(actor)
+            self.ren.AddActor(self.weld_seq_actors[1])
         
-        self.change_opacity(self.ui.op_slider.value())
+        if hasattr(self,'points'):
+            self.point_actor, \
+            self.pnt_polydata, \
+            self.colors, lut = \
+            gen_point_cloud(self.points[self.active_pnt],None,None)
 
+            sb_widget = gen_scalar_bar()
+            sb_widget.SetInteractor(self.iren)
+            sb_widget.On()
+            self.sb_actor = sb_widget.GetScalarBarActor()
+            self.sb_actor.SetLookupTable(lut)
+            self.ren.AddActor(self.sb_actor)
+
+            self.ren.AddActor(self.point_actor)
+
+            limits = get_limits(self.points[self.active_pnt], 0)
+            self.ui.bbox_x0.setValue(limits[0])
+            self.ui.bbox_x1.setValue(limits[1])
+            self.ui.bbox_y0.setValue(limits[2])
+            self.ui.bbox_y1.setValue(limits[3])
+            self.ui.bbox_z0.setValue(limits[4])
+            self.ui.bbox_z1.setValue(limits[5])
+            self.ui.zseg.setValue((limits[4] + limits[5]) / 2)
+            
+            self.change_opacity(self.ui.op_slider.value())
+        
+        
         self.ren.ResetCamera()
         self.ui.vtkWidget.update()
 
@@ -623,7 +636,8 @@ class interactor(QtWidgets.QWidget):
         '''
         if hasattr(self, 'id_box_actor'):
             self.ren.RemoveActor(self.id_box_actor)
-        self.active_pnt = np.arange(0, len(self.points), 1, dtype=int)
+        if hasattr(self, 'points'):
+            self.active_pnt = np.arange(0, len(self.points), 1, dtype=int)
         self.draw_points()
 
     def run_fc(self):
@@ -740,11 +754,17 @@ def get_file(*args):
     else: launchdir = os.getcwd()
     ftypeName={}
     ftypeName['*.txt']=["Select text file:", "*.txt", "TXT File"]
+    ftypeName['*.dat']=["Select the KUKA file:", "*.dat", "DAT File"]
     ftypeName['*.xyz']=["Select pointcloud:", "*.xyz", "XYZ File"]
     ftypeName['*.yaml']=["Select settings file:", "*.yaml", "YAML File"]
     ftypeName['*.*']=["Select external executable:", "*.*", "..."]
     
-    filer = QtWidgets.QFileDialog.getOpenFileName(None, ftypeName[ext][0], 
+    if ext == '*.xyz':
+        filer = QtWidgets.QFileDialog.getOpenFileName(None, 'Select file:', 
+         launchdir,(ftypeName[ext][2]+' ('+ftypeName[ext][1]+');;'+
+         ftypeName['*.dat'][2]+' ('+ftypeName['*.dat'][1]+');;All Files (*.*)'))
+    else:
+        filer = QtWidgets.QFileDialog.getOpenFileName(None, ftypeName[ext][0], 
          launchdir,(ftypeName[ext][2]+' ('+ftypeName[ext][1]+');;All Files (*.*)'))
     
     if filer[0] == '':
