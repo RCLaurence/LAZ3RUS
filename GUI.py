@@ -210,6 +210,8 @@ class main_window(QtWidgets.QWidget):
         
         self.invert_generated_geo = QtWidgets.QCheckBox("Invert transform")
         self.invert_generated_geo.setToolTip("Generate geometry in original orientation")
+        self.mesh_cb = QtWidgets.QCheckBox('Mesh')
+        self.mesh_cb.setToolTip('Automatically mesh the given geometry')
         self.load_stl_button = QtWidgets.QPushButton("Load STL")
         self.load_stl_button.setToolTip("Load the generated STL file")
         self.load_stl_button.setEnabled(False)
@@ -227,6 +229,7 @@ class main_window(QtWidgets.QWidget):
         gen_bead_box_layout.addWidget(self.pbar,1,0,1,2)
         gen_bead_box_layout.addWidget(self.run_button,1,2,1,1)
         gen_bead_box_layout.addWidget(self.invert_generated_geo,2,0,1,1)
+        gen_bead_box_layout.addWidget(self.mesh_cb, 2,1,1,1)
         gen_bead_box_layout.addWidget(self.load_stl_button,2,2,1,1)
         
         gen_bead_box.setLayout(gen_bead_box_layout)
@@ -606,7 +609,7 @@ class interactor(QtWidgets.QWidget):
                     pass
                 else:
                     multi_fit_results.append([y,*popt,mse])
-            np.savetxt(os.path.join(self.work_dir,"fit_all.txt"), multi_fit_results, header="y_pos, a, h, k, mse")
+            np.savetxt("fit_res/fit_all.txt", multi_fit_results, header="y_pos, a, h, k, mse")
         #return inter_x, popt and y_e to main object
         self.inter_x = inter_x
         self.popt = popt
@@ -645,12 +648,18 @@ class interactor(QtWidgets.QWidget):
         width = self.ui.fc_plate_w.value()
         thickness = self.ui.fc_plate_t.value()
         
-        if self.ui.invert_generated_geo.isChecked():
+        if self.ui.invert_generated_geo.isChecked() and not self.ui.mesh_cb.isChecked():
             self.inverted_geo = True
             gen_fc_bead(self.inter_x, self.y_e, self.popt, [width, height, thickness], self.transform, self.macro_fname)
-        else:
+        elif not self.ui.invert_generated_geo.isChecked() and not self.ui.mesh_cb.isChecked():
             self.inverted_geo = False
             gen_fc_bead(self.inter_x, self.y_e, self.popt, [width, height, thickness], np.eye(4), self.macro_fname)
+        elif self.ui.invert_generated_geo.isChecked() and self.ui.mesh_cb.isChecked():
+            self.inverted_geo = True
+            gen_fc_bead(self.inter_x, self.y_e, self.popt, [width, height, thickness], self.transform, self.macro_fname, True)
+        elif not self.ui.invert_generated_geo.isChecked() and self.ui.mesh_cb.isChecked():
+            self.inverted_geo = False
+            gen_fc_bead(self.inter_x, self.y_e, self.popt, [width, height, thickness], np.eye(4), self.macro_fname, True)
 
         self.thread = execute_fc(self.macro_fname, self.freecad_cmd)
 

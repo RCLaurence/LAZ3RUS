@@ -95,7 +95,7 @@ def get_trans_from_euler_angles(ax=0, ay=0, az=0):
 # end of convenience functions
 
 
-def gen_fc_bead(inter_x, y_e, popt, plate_params, trans, outfile):
+def gen_fc_bead(inter_x, y_e, popt, plate_params, trans, outfile, mesh=False):
     print('Generating FreeCAD macro')
     '''
     Generates a FreeCAD macro and then runs it with freecadcmd to produce geometry files according to the above
@@ -254,8 +254,8 @@ Part.export(__objs__, u"%s")
 ''' % (Path(os.path.join(cwd, prefix + '.stl')).as_posix(),
        Path(os.path.join(cwd, prefix + '.step')).as_posix())  # because FreeCAD wants posix style paths
     fid.write(str.encode(export_str))
-
-    n_mesh_str = '''
+    if mesh:
+        n_mesh_str = '''
 ### Begin command FEM_MeshNetgenFromShape
 ObjectsFem.makeMeshNetgenLegacy(FreeCAD.ActiveDocument, 'FEMMeshNetgen')
 FreeCAD.ActiveDocument.ActiveObject.Shape = FreeCAD.ActiveDocument.Body
@@ -270,16 +270,16 @@ App.getDocument('Unnamed').recompute()
 # Gui.getDocument('Unnamed').resetEdit()
     
     '''
-    fid.write(str.encode(n_mesh_str))
+        fid.write(str.encode(n_mesh_str))
 
-    n_mesh_export_str ='''
+        n_mesh_export_str ='''
 ### Begin command Std_Export
 __objs__ = []
 __objs__.append(FreeCAD.getDocument("Unnamed").getObject("FEMMeshNetgen"))
 Fem.export(__objs__, u"%s")
 '''% (Path(os.path.join(cwd, prefix + '.inp')).as_posix())
-    fid.write(str.encode(n_mesh_export_str))
-    fid.close()
+        fid.write(str.encode(n_mesh_export_str))
+        fid.close()
 
 
 def run_main():
